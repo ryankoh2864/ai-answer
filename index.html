@@ -1,0 +1,855 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The 7-Day AI Answer · Ryan Koh</title>
+<meta name="description" content="One-on-one AI help for founders and professionals short on time. Tell me your goal; within 7 days you get the answer, set up and working on your own work.">
+<meta property="og:title" content="The 7-Day AI Answer · Ryan Koh"><meta property="og:description" content="Skip the months of AI trial and error. A working answer in one week.">
+<meta property="og:image" content="https://ryankoh2864.github.io/ai-answer/assets/og.jpg"><meta name="twitter:card" content="summary_large_image">
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Sofia+Sans+Extra+Condensed:wght@300;500;700;800&display=swap">
+<style>
+/* Layout: an engineer's computation pad. Pale green grid paper, one deep pad-green ink, giant condensed type,
+   full-bleed green bands with halftone, title-block details in mono. One centred column, hairlines instead of cards. */
+:root{
+  --paper:#edf1e9; --paper-2:#e1e8dc; --ink:#0d2219; --ink-2:#405649; --rule:rgba(13,34,25,.17);
+  --grid:rgba(18,112,70,.085); --accent:#0a7a49; --on-accent:#eef4ec; --mark:rgba(10,122,73,.17); --shadow:rgba(13,34,25,.10);
+  --display:"Sofia Sans Extra Condensed","Arial Narrow","Roboto Condensed",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --col:1140px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0b1611; --paper-2:#122019; --ink:#e2ebe1; --ink-2:#a3b5a9; --rule:rgba(226,235,225,.15);
+  --grid:rgba(70,200,140,.06); --accent:#37c585; --on-accent:#05120c; --mark:rgba(55,197,133,.22); --shadow:rgba(0,0,0,.4); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0b1611; --paper-2:#122019; --ink:#e2ebe1; --ink-2:#a3b5a9; --rule:rgba(226,235,225,.15);
+  --grid:rgba(70,200,140,.06); --accent:#37c585; --on-accent:#05120c; --mark:rgba(55,197,133,.22); --shadow:rgba(0,0,0,.4); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.07;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.frame{position:fixed;inset:0;border:4px solid var(--accent);pointer-events:none;z-index:70}
+a{color:inherit}
+figure{margin:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:var(--col);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--display);font-weight:300;text-transform:uppercase;line-height:.9;letter-spacing:-.005em;margin:0;text-wrap:balance}
+h2{font-size:clamp(52px,8.4vw,120px)}
+h3{font-size:clamp(30px,3.6vw,44px);font-weight:500;line-height:.95}
+p{margin:0}
+.lede{font-size:clamp(18px,1.6vw,21px);line-height:1.55;color:var(--ink-2);max-width:62ch}
+.tag{font:500 13px/1.3 var(--mono);color:var(--accent);letter-spacing:.01em}
+.mark{background:linear-gradient(transparent 52%,var(--mark) 52%,var(--mark) 92%,transparent 92%);padding:0 .1em}
+section{padding-block:clamp(72px,10vw,132px)}
+.rule{border:0;border-top:1px solid var(--rule);margin:0}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.6em;font:700 18px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;
+  padding:17px 26px;border:1.5px solid var(--accent);background:var(--accent);color:var(--on-accent);text-decoration:none;cursor:pointer;
+  position:relative;overflow:hidden;transition:transform .5s var(--ease)}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);
+  transform:translateX(-110%);animation:sweep 3.2s var(--ease) infinite 1.4s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.ghost::after{display:none}
+@keyframes sweep{0%{transform:translateX(-110%)}55%,100%{transform:translateX(110%)}}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:64px}
+.brand{font:700 24px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;text-decoration:none;display:flex;align-items:baseline;gap:10px}
+.brand small{font:500 13px/1 var(--mono);text-transform:none;letter-spacing:0;color:var(--ink-2)}
+.nav nav{display:flex;align-items:center;gap:26px;font-size:15px}
+.nav nav a{text-decoration:none;color:var(--ink-2)}
+.nav nav a:hover{color:var(--ink)}
+.nav .btn{padding:12px 18px;font-size:16px}
+.nav nav a.btn{color:var(--on-accent)}
+@media (max-width:860px){.nav nav a:not(.btn){display:none}.brand small{display:none}}
+
+/* hero */
+.hero{padding-block:clamp(40px,7vw,84px) clamp(56px,8vw,96px)}
+.hero .kicker{display:flex;flex-wrap:wrap;gap:10px 22px;margin-bottom:26px}
+.hero h1{font-size:clamp(66px,12.4vw,186px);line-height:.84}
+.hero h1 .redline{position:relative;white-space:nowrap;display:inline-block}
+.hero h1 del{text-decoration:none;position:relative;color:var(--ink-2)}
+.hero h1 del::after{content:"";position:absolute;left:-2%;right:-2%;top:52%;height:.07em;background:var(--accent);transform-origin:left;
+  transform:rotate(-3deg) scaleX(1);animation:strike 1s var(--ease) .5s both}
+.hero h1 ins{text-decoration:none;color:var(--accent);font-weight:800;position:relative}
+.hero h1 ins::before{content:"";position:absolute;left:0;right:0;bottom:-.04em;height:.05em;background:var(--accent);animation:draw .8s var(--ease) 1.2s both;transform-origin:left}
+@keyframes strike{from{transform:rotate(-3deg) scaleX(0)}to{transform:rotate(-3deg) scaleX(1)}}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,5vw,72px);align-items:start;margin-top:clamp(32px,4vw,52px)}
+.hero-copy{display:grid;gap:26px}
+.hero-copy .actions{display:flex;flex-wrap:wrap;gap:12px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.facts div{padding:14px 14px 14px 0}
+.facts div+div{padding-left:14px;border-left:1px solid var(--rule)}
+.facts b{display:block;font:700 34px/1 var(--display);text-transform:uppercase}
+.facts span{font-size:14px;color:var(--ink-2);line-height:1.35;display:block;margin-top:4px}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+
+/* the sheet (live demo) */
+.sheet{background:var(--paper);border:1.5px solid var(--ink);box-shadow:10px 10px 0 var(--shadow);position:relative;font-family:var(--mono);font-size:14px}
+.sheet header{display:grid;grid-template-columns:1fr auto;border-bottom:1.5px solid var(--ink)}
+.sheet header div{padding:10px 14px}
+.sheet header div+div{border-left:1.5px solid var(--ink)}
+.sheet header b{display:block;font:700 22px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.sheet header small{color:var(--ink-2);font-size:12.5px}
+.goals{display:flex;flex-wrap:wrap;gap:8px;padding:14px;border-bottom:1px dashed var(--rule)}
+.goals legend{font-size:13px;color:var(--ink-2);width:100%;margin-bottom:2px;padding:0}
+.goals{border-left:0;border-right:0;border-top:0;margin:0}
+.goal{font:500 13.5px/1.25 var(--body);padding:9px 12px;border:1px solid var(--rule);background:var(--paper-2);color:var(--ink);cursor:pointer;text-align:left;transition:all .4s var(--ease)}
+.goal[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.goal:hover{border-color:var(--accent)}
+.lines{list-style:none;margin:0;padding:6px 14px 14px;min-height:262px}
+.lines li{display:grid;grid-template-columns:78px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid var(--rule);animation:rise .7s var(--ease) both}
+.lines li:last-child{border-bottom:0}
+.lines .d{color:var(--accent);font-weight:500}
+.lines .t{color:var(--ink);line-height:1.45}
+.answer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end;padding:14px;border-top:1.5px solid var(--ink);background:var(--paper-2)}
+.answer small{display:block;color:var(--ink-2);font-size:12.5px;margin-bottom:4px}
+.answer strong{font:700 clamp(26px,2.6vw,32px)/1 var(--display);text-transform:uppercase;display:block}
+.answer .cost{font-size:13px;color:var(--ink-2);margin-top:6px;display:block}
+.stamp{font:800 15px/1.05 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:2.5px solid var(--accent);
+  padding:7px 10px;transform:rotate(-7deg);text-align:center;animation:stamp .6s var(--ease) both;white-space:nowrap}
+.stamp span{display:block;font:500 11.5px/1.2 var(--mono);letter-spacing:0;text-transform:none}
+.note{font:400 12.5px/1.4 var(--mono);color:var(--ink-2);padding:10px 14px;border-top:1px dashed var(--rule)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes stamp{0%{opacity:0;transform:rotate(-7deg) scale(1.6)}100%{opacity:1;transform:rotate(-7deg) scale(1)}}
+
+/* green band */
+.band{background:var(--accent);color:var(--on-accent);position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background-image:radial-gradient(circle at center,var(--on-accent) 0 1.1px,transparent 1.6px);background-size:7px 7px;
+  -webkit-mask-image:linear-gradient(115deg,#000 0%,transparent 55%);mask-image:linear-gradient(115deg,#000 0%,transparent 55%)}
+.band .wrap{position:relative}
+.band .lede{color:var(--on-accent);opacity:.9}
+.band .tag{color:var(--on-accent);opacity:.85}
+
+/* pain */
+.pains{list-style:none;margin:clamp(36px,5vw,56px) 0 0;padding:0;counter-reset:p}
+.pains li{display:grid;grid-template-columns:minmax(0,1fr);padding:22px 0;border-top:1px solid color-mix(in srgb,var(--on-accent) 30%,transparent);
+  font:300 clamp(28px,3.6vw,46px)/1.02 var(--display);text-transform:uppercase;letter-spacing:.005em}
+.pains li:last-child{border-bottom:1px solid color-mix(in srgb,var(--on-accent) 30%,transparent)}
+
+.source{margin-top:22px;font:400 14px/1.5 var(--mono);opacity:.9;max-width:70ch}
+.source a{color:inherit;text-underline-offset:3px}
+/* calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);margin-top:clamp(40px,6vw,72px);align-items:center}
+.calc label{display:grid;gap:8px;padding:16px 0;border-top:1px solid color-mix(in srgb,var(--on-accent) 30%,transparent)}
+.calc label span{display:flex;justify-content:space-between;gap:12px;font-size:16px}
+.calc label output{font:700 22px/1 var(--display);font-variant-numeric:tabular-nums}
+.calc input[type=range]{width:100%;accent-color:var(--on-accent)}
+.calc .total{font:800 clamp(68px,10vw,140px)/.85 var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.calc .vs{margin-top:18px;font-size:17px;max-width:40ch}
+@media (max-width:800px){.calc{grid-template-columns:1fr}}
+
+/* three answers */
+.answers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:clamp(40px,6vw,64px);border-top:1.5px solid var(--ink)}
+.answers article{padding:26px 26px 30px 0;display:grid;gap:14px;align-content:start}
+.answers article+article{padding-left:26px;border-left:1px solid var(--rule)}
+.scale{display:flex;gap:4px;margin-bottom:6px}
+.scale i{width:22px;height:8px;border:1px solid var(--accent)}
+.scale i.on{background:var(--accent)}
+.answers .run{font:500 13.5px/1.4 var(--mono);color:var(--ink-2);border-top:1px dashed var(--rule);padding-top:12px}
+.honest{margin-top:40px;font:300 clamp(28px,3.4vw,42px)/1.02 var(--display);text-transform:uppercase;max-width:28ch}
+.honest b{font-weight:800;color:var(--accent)}
+@media (max-width:860px){.answers{grid-template-columns:1fr}.answers article,.answers article+article{padding:24px 0;border-left:0;border-bottom:1px solid var(--rule)}}
+
+/* week */
+.week{list-style:none;margin:clamp(40px,6vw,64px) 0 0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));position:relative}
+.week li{padding:18px 18px 0 0;display:grid;gap:10px;align-content:start;position:relative}
+.week li::before{content:"";display:block;height:3px;background:var(--accent);margin-bottom:8px;transform-origin:left;animation:draw 1s var(--ease) both}
+.week li:nth-child(2)::before{animation-delay:.12s}.week li:nth-child(3)::before{animation-delay:.24s}
+.week li:nth-child(4)::before{animation-delay:.36s}.week li:nth-child(5)::before{animation-delay:.48s}.week li:nth-child(6)::before{animation-delay:.6s}
+.week .day{font:800 clamp(30px,3.2vw,44px)/.9 var(--display);text-transform:uppercase;color:var(--accent)}
+.week b{font-weight:600;font-size:16px;line-height:1.3}
+.week p{font-size:15px;color:var(--ink-2);line-height:1.5}
+@media (max-width:980px){.week{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}}
+@media (max-width:520px){.week{grid-template-columns:1fr}}
+
+/* prices */
+.prices{margin-top:clamp(40px,6vw,64px);border-top:1.5px solid var(--ink)}
+.price{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) minmax(0,.9fr);gap:clamp(18px,3vw,40px);padding:clamp(26px,3.4vw,40px) 0;border-bottom:1px solid var(--rule);align-items:start}
+.price .from{font:500 13px/1 var(--mono);color:var(--ink-2);display:block;margin-bottom:6px}
+.price .num{font:300 clamp(64px,8vw,112px)/.82 var(--display);letter-spacing:-.01em;display:block}
+.price .num sup{font-size:.36em;vertical-align:.95em;margin-right:.06em;font-weight:500}
+.price .per{font:500 14px/1.3 var(--body);color:var(--ink-2);display:block;margin-top:8px}
+.price ul{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.price li{padding-left:22px;position:relative;font-size:16px;line-height:1.45}
+.price li::before{content:"";position:absolute;left:0;top:.62em;width:11px;height:2px;background:var(--accent)}
+.price .when{font:500 14px/1.5 var(--mono);color:var(--ink-2);display:grid;gap:4px}
+.price .when b{color:var(--ink);font-weight:500}
+.price.lead{position:relative}
+.price.lead .num{color:var(--accent);font-weight:500}
+.price .pill{display:inline-block;font:500 12.5px/1 var(--mono);color:var(--on-accent);background:var(--accent);padding:6px 8px;margin-bottom:12px}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.extras .price{grid-template-columns:1fr;gap:14px}
+.extras .num{font-size:clamp(48px,5.4vw,72px)}
+@media (max-width:900px){.price,.extras .price{grid-template-columns:1fr}.extras{grid-template-columns:1fr}}
+.capacity{margin-top:28px;font-size:16px;color:var(--ink-2)}
+.capacity span{display:flex;gap:10px;align-items:center}
+.capacity i{width:10px;height:10px;background:var(--accent);display:inline-block}
+.capacity i.off{background:transparent;border:1.5px solid var(--accent)}
+
+.bonus{margin-top:clamp(36px,5vw,56px);padding:clamp(22px,3vw,32px);border:1.5px solid var(--accent);display:grid;gap:16px}
+.bonus h3{color:var(--accent)}
+.bonus ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.bonus li{display:grid;gap:6px;align-content:start}
+.bonus li b{font-weight:600;font-size:16.5px}
+.bonus li span{color:var(--ink-2);font-size:15px;line-height:1.5}
+@media (max-width:800px){.bonus ul{grid-template-columns:1fr}}
+@media (max-width:520px){.bonus ul{grid-template-columns:1fr}}
+.extras{margin-top:clamp(28px,4vw,40px)}
+
+/* promises */
+.promises{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:clamp(40px,6vw,64px)}
+.promises.two{grid-template-columns:repeat(2,minmax(0,1fr));max-width:900px}
+@media (max-width:860px){.promises.two{grid-template-columns:1fr}}
+.promises article{padding:0 28px 0 0;display:grid;gap:14px;align-content:start}
+.promises article+article{padding-left:28px;border-left:1px solid color-mix(in srgb,var(--on-accent) 30%,transparent)}
+.promises h3{font-size:clamp(34px,3.8vw,52px);font-weight:700}
+.promises p{font-size:16.5px;line-height:1.55;opacity:.92}
+.fine{margin-top:44px;font-size:15px;max-width:70ch;opacity:.85}
+@media (max-width:860px){.promises{grid-template-columns:1fr;gap:30px}.promises article,.promises article+article{padding:0;border-left:0}}
+
+/* built */
+.built{display:grid;gap:clamp(56px,7vw,96px);margin-top:clamp(40px,6vw,64px)}
+.tool{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.tool:nth-child(even){grid-template-columns:minmax(0,1fr) minmax(0,1.35fr)}
+.tool:nth-child(even) .shot{order:2}
+.shot{position:relative;border:1.5px solid var(--ink);background:var(--paper-2);box-shadow:10px 10px 0 var(--shadow);overflow:hidden}
+.shot .bar{display:flex;gap:6px;align-items:center;padding:8px 10px;border-bottom:1.5px solid var(--ink);font:500 12.5px/1 var(--mono);color:var(--ink-2)}
+.shot .bar i{width:9px;height:9px;border:1.5px solid var(--ink);border-radius:50%}
+.shot .bar span{margin-left:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shot img,.shot video{display:block;width:100%;height:auto;max-width:100%}
+.shot.phone{max-width:300px;justify-self:center}
+.tool .meta{display:grid;gap:14px}
+.tool .status{display:flex;flex-wrap:wrap;gap:8px 18px;font:500 13.5px/1.3 var(--mono);color:var(--ink-2)}
+.tool .status b{color:var(--accent);font-weight:500}
+@media (max-width:860px){.tool,.tool:nth-child(even){grid-template-columns:1fr}.tool:nth-child(even) .shot{order:0}}
+
+
+.duo{display:grid;position:relative;padding-bottom:16%}
+.duo .over{position:absolute;width:56%;right:-4%;bottom:0;box-shadow:10px 10px 0 var(--shadow)}
+.log ol{list-style:none;margin:0;padding:6px 14px 10px;font:400 13.5px/1.4 var(--mono);min-height:330px}
+.log li{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--rule);animation:rise .6s var(--ease) both}
+.log li:last-child{border-bottom:0}
+.log .dt{color:var(--ink-2)}
+.log .v{font:800 14px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border:1.5px solid var(--accent);color:var(--accent);white-space:nowrap}
+.log .v.wait{border-style:dashed;color:var(--ink-2);border-color:var(--rule)}
+.log .v.fix{background:transparent;color:var(--ink);border-color:var(--ink)}
+.tried{margin-top:clamp(64px,8vw,104px);border-top:1.5px solid var(--ink);padding-top:28px;display:grid;gap:14px}
+.tried ul{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.tried li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:4px 14px;padding:18px 0;border-top:1px solid var(--rule)}
+.tried li .yr{font:500 13.5px/1.6 var(--mono);color:var(--ink-2);grid-row:span 2}
+.tried li b{font-weight:600}
+.tried li p{color:var(--ink-2);font-size:15.5px}
+@media (max-width:760px){.tried ul{grid-template-columns:1fr}.duo{padding-bottom:0;gap:14px}.duo .over{position:relative;width:80%;right:auto;justify-self:end}}
+
+/* career */
+.career{list-style:none;margin:clamp(40px,6vw,64px) 0 0;padding:0;border-top:1.5px solid var(--ink)}
+.career li{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1.4fr);gap:clamp(14px,3vw,36px);padding:22px 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.career .yr{font:500 14px/1 var(--mono);color:var(--ink-2)}
+.career b{font:700 clamp(26px,2.8vw,36px)/1 var(--display);text-transform:uppercase}
+.career p{color:var(--ink-2);font-size:16px}
+@media (max-width:760px){.career li{grid-template-columns:1fr;gap:6px}}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,72px);align-items:start}
+.portrait{aspect-ratio:4/5;max-width:100%;border:1.5px solid var(--ink);background:var(--paper-2);position:relative;overflow:hidden;display:grid;place-items:center}
+.portrait img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1)}
+.portrait::after{content:"";position:absolute;inset:0;background:var(--accent);mix-blend-mode:screen;opacity:.0}
+.portrait .mono{font:800 clamp(120px,16vw,220px)/.8 var(--display);color:var(--accent);opacity:.9}
+.about .copy{display:grid;gap:20px;font-size:18.5px;line-height:1.65;max-width:62ch}
+.about .sign{font:500 14px/1.4 var(--mono);color:var(--ink-2)}
+@media (max-width:860px){.about{grid-template-columns:1fr}.portrait{max-width:340px}}
+
+/* fit */
+.fit{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,5vw,64px);margin-top:clamp(36px,5vw,56px)}
+.fit h3{margin-bottom:14px}
+.fit ul{margin:0;padding:0;list-style:none}
+.fit li{padding:14px 0 14px 30px;border-top:1px solid var(--rule);position:relative;font-size:17px}
+.fit li::before{position:absolute;left:0;top:10px;font:700 28px/1 var(--display)}
+.fit .yes li::before{content:"+";color:var(--accent)}
+.fit .no li::before{content:"\2212";color:var(--ink-2)}
+@media (max-width:760px){.fit{grid-template-columns:1fr}}
+
+/* faq */
+.faq{margin-top:clamp(36px,5vw,56px);border-top:1.5px solid var(--ink)}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 0;
+  font:500 clamp(24px,2.6vw,32px)/1.05 var(--display);text-transform:uppercase}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:300 40px/1 var(--display);color:var(--accent);transition:transform .5s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .a{padding:0 0 24px;max-width:70ch;color:var(--ink-2);font-size:17px;display:grid;gap:12px}
+
+/* apply */
+.apply{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);align-items:start}
+.apply form{display:grid;gap:18px;background:var(--paper);color:var(--ink);padding:clamp(20px,3vw,32px);border:1.5px solid var(--ink);box-shadow:10px 10px 0 rgba(0,0,0,.18)}
+.apply label{display:grid;gap:7px;font-size:15px;font-weight:500}
+.apply label small{font-weight:400;color:var(--ink-2)}
+.apply input,.apply textarea,.apply select{font:400 16px/1.4 var(--body);color:var(--ink);background:var(--paper-2);border:1px solid var(--rule);padding:12px 12px;width:100%;border-radius:0}
+.apply textarea{min-height:96px;resize:vertical}
+.apply .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.apply .check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.apply .check input{width:auto;margin-top:4px}
+.done{display:grid;gap:12px;font-size:16px}
+.done pre{white-space:pre-wrap;font:400 13.5px/1.5 var(--mono);background:var(--paper-2);border:1px solid var(--rule);padding:12px;max-height:240px;overflow:auto;margin:0}
+.done .email{font:500 18px/1.3 var(--mono);user-select:all;word-break:break-all}
+.done .btns{display:flex;flex-wrap:wrap;gap:10px}
+.apply .band-copy{display:grid;gap:22px}
+@media (max-width:860px){.apply{grid-template-columns:1fr}.apply .row{grid-template-columns:1fr}}
+
+footer{padding-block:56px 72px;border-top:1px solid var(--rule)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font:400 14px/1.5 var(--mono);color:var(--ink-2)}
+.ghost-word{font:800 clamp(80px,19vw,280px)/.8 var(--display);text-transform:uppercase;color:var(--accent);opacity:.12;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;padding-inline:clamp(16px,4vw,40px);margin-bottom:28px}
+
+@media (max-width:700px){.frame{display:none}body{font-size:16.5px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<div class="frame" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">Ryan Koh <small>one-on-one AI help</small></a>
+    <nav aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#prices">Prices</a>
+      <a href="#built">What I've built</a>
+      <a href="#faq">Questions</a>
+      <a class="btn" href="#apply">Book a call</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="kicker">
+      <span class="tag">One-on-one AI help for founders and professionals short on time</span>
+      <span class="tag">Kuala Lumpur, working worldwide</span>
+    </div>
+    <h1>Get AI working for you in <span class="redline"><del>months</del></span> <ins>one week</ins></h1>
+
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="lede">Tell me what you want to get done. Within 7 days you get the answer, <span class="mark">set up and working on your own work</span>. Sometimes that's one subscription used properly. Sometimes it's a private AI that runs on your own computer. Either way, you skip the months of trial and error.</p>
+        <div class="actions">
+          <a class="btn" href="#apply">Book a free 30-minute call</a>
+          <a class="btn ghost" href="#prices">See prices</a>
+        </div>
+        <div class="facts">
+          <div><b>7 days</b><span>from yes to a working answer</span></div>
+          <div><b data-price="answer">US$—</b><span>starting price. Exact price in a written proposal</span></div>
+          <div><b>30 days</b><span>of follow-up included</span></div>
+        </div>
+      </div>
+
+      <!-- live demo: the computation sheet -->
+      <div class="sheet" aria-live="polite">
+        <header>
+          <div><b>Your week, on one sheet</b><small>Pick a goal. Watch how the week runs.</small></div>
+          <div><small>Sheet</small><b>1 of 1</b></div>
+        </header>
+        <fieldset class="goals">
+          <legend>What do you want AI to do?</legend>
+          <button type="button" class="goal" data-goal="0" aria-pressed="true">Write my newsletter in half the time</button>
+          <button type="button" class="goal" data-goal="1" aria-pressed="false">Turn client calls into notes and follow-ups</button>
+          <button type="button" class="goal" data-goal="2" aria-pressed="false">Research a market before I invest</button>
+          <button type="button" class="goal" data-goal="3" aria-pressed="false">Use AI on files I can't upload anywhere</button>
+        </fieldset>
+        <ol class="lines" id="lines"></ol>
+        <div class="answer">
+          <div><small>Likely answer</small><strong id="ans">One subscription, set up right</strong><span class="cost" id="cost"></span></div>
+          <div class="stamp" id="stamp">Ready to use<span>day 7</span></div>
+        </div>
+        <p class="note">Examples only. Your real answer depends on your goal, which is what the first call is for.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN -->
+<section class="band" id="pain">
+  <div class="wrap">
+    <span class="tag">Sound familiar?</span>
+    <h2 style="margin-top:18px">You know AI could help. Getting there is the slow part.</h2>
+    <ul class="pains">
+      <li>You pay for an AI subscription and mostly use it like a search box.</li>
+      <li>A new tool launches every week. You save the posts and never get round to trying them.</li>
+      <li>You lost a weekend to a setup video, and it broke the next Monday.</li>
+      <li>You'd let AI read your files if you knew they weren't going to someone else's server.</li>
+      <li>You can tell AI could take a chunk of your week. You just can't tell which chunk, or with which tool.</li>
+    </ul>
+    <p class="source">You're not alone: 83% of US office workers say most of what they know about AI is self-taught. <a href="https://www.ey.com/en_us/newsroom/2025/10/new-ey-survey-reveals-majority-of-workers-are-enthusiastic-about-agentic-ai-but-leadership-gaps-in-communication-and-lack-of-training-threaten-impact">EY survey, Oct 2025</a></p>
+
+    <div class="calc">
+      <div>
+        <span class="tag">What figuring it out alone costs you</span>
+        <label for="c-hours"><span>Hours a week AI could save you <output id="o-hours">5</output></span>
+          <input type="range" id="c-hours" min="1" max="20" value="5"></label>
+        <label for="c-rate"><span>What an hour of your time is worth (US$) <output id="o-rate">100</output></span>
+          <input type="range" id="c-rate" min="20" max="600" step="10" value="100"></label>
+        <label for="c-months"><span>Months you'd spend testing on your own <output id="o-months">3</output></span>
+          <input type="range" id="c-months" min="1" max="12" value="3"></label>
+      </div>
+      <div>
+        <div class="total" id="c-total">US$6,495</div>
+        <p class="vs" id="c-vs">of your time, gone before anything works. You set the numbers above.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THREE ANSWERS -->
+<section id="answers">
+  <div class="wrap">
+    <span class="tag">It all starts with your goal</span>
+    <h2 style="margin-top:18px">Three kinds of answer. You only pay for the one you need.</h2>
+    <div class="answers">
+      <article>
+        <div class="scale" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+        <h3>The right tool, set up properly</h3>
+        <p>Often this is all you need. I pick the AI subscription that fits your work, set it up with you, and show you the handful of jobs to use it for. You pay the AI company directly, in your own name.</p>
+        <p class="run" data-subs>Running cost: your own AI plan, usually about US$20 a month.</p>
+      </article>
+      <article>
+        <div class="scale" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></div>
+        <h3>Helpers built around your week</h3>
+        <p>Small AI helpers for the jobs you repeat: drafts, research, meeting notes, reports, follow-ups. Built on tools you already pay for, with written steps so you can change them yourself later.</p>
+        <p class="run">Running cost: the same AI plan, sometimes one or two small add-ons.</p>
+      </article>
+      <article>
+        <div class="scale" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        <h3>Your own private AI</h3>
+        <p>An AI assistant that lives on a computer you own, set up with Hermes Agent, a free open-source agent from Nous Research. For people who handle client files, money or anything they'd rather keep off other people's servers.</p>
+        <p class="run" data-hermes>Running cost: your own computer, plus the AI model you choose to plug in.</p>
+      </article>
+    </div>
+    <p class="honest">On the free call I'll tell you which one you need. <b>If it's the first, I won't sell you the third.</b></p>
+  </div>
+</section>
+
+<!-- HOW THE WEEK WORKS -->
+<section id="how" style="padding-top:0">
+  <div class="wrap">
+    <hr class="rule" style="margin-bottom:clamp(72px,10vw,132px)">
+    <span class="tag">How the week works</span>
+    <h2 style="margin-top:18px">One call, one proposal, one week.</h2>
+    <ol class="week">
+      <li><span class="day">Free call</span><b>30 minutes on your goal</b><p>What are you trying to achieve? If AI isn't the answer, I'll tell you.</p></li>
+      <li><span class="day">Proposal</span><b>In writing, exact price</b><p>What you'll get, by when, and what it costs. Yours to keep, even if you say no.</p></li>
+      <li><span class="day">Days 1&#8209;4</span><b>I do the testing</b><p>I try the options on your real task, so you don't spend your evenings doing it.</p></li>
+      <li><span class="day">Day 5</span><b>We set it up together</b><p>90 minutes on a screen share, on your own accounts and files.</p></li>
+      <li><span class="day">Day 7</span><b>Handover</b><p>A written playbook, the recording, and a short list of what to ignore.</p></li>
+      <li><span class="day">+30 days</span><b>Follow-up</b><p>Message me questions for 30 days. We meet again on day 30 to tune it up.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- PRICES -->
+<section id="prices" style="background:var(--paper-2)">
+  <div class="wrap">
+    <span class="tag">Prices, in US dollars</span>
+    <h2 style="margin-top:18px">Starting prices. Your exact price comes in a written proposal.</h2>
+    <p class="lede" style="margin-top:22px">Every goal is different, so we start with a free 30-minute call. Then I send you a proposal with what you'll get, by when, and the exact price.</p>
+    <div class="prices">
+      <div class="price lead">
+        <div><span class="pill">Start here</span><span class="from">from</span><span class="num" data-num="answer"></span><span class="per">one person, one goal</span></div>
+        <div><h3>The 7-Day AI Answer</h3>
+          <ul>
+            <li>Goal call, then I test the options on your real task</li>
+            <li>A 90-minute setup session on your own accounts</li>
+            <li>Written playbook and recording to keep</li>
+            <li>30 days of follow-up by message, and a day-30 call</li>
+          </ul></div>
+        <div class="when"><b>Working by day 7</b><span>Pay half to start, half when it's working</span></div>
+      </div>
+      <div class="price">
+        <div><span class="from">from</span><span class="num" data-num="setup"></span><span class="per">one person, up to 3 helpers</span></div>
+        <div><h3>Built Around Your Week</h3>
+          <ul>
+            <li>Everything in the 7-Day AI Answer</li>
+            <li>Up to 3 AI helpers built for the jobs you repeat</li>
+            <li>A recorded walkthrough for each, so you can change it later</li>
+            <li>A second setup session in week 2 to tune what you've used</li>
+          </ul></div>
+        <div class="when"><b>First helper by day 7</b><span>All 3 working by day 14</span></div>
+      </div>
+      <div class="price">
+        <div><span class="from">from</span><span class="num" data-num="private"></span><span class="per">one person, your own computer</span></div>
+        <div><h3>Your Own Private AI</h3>
+          <ul>
+            <li>Everything in the 7-Day AI Answer</li>
+            <li>Hermes Agent set up on a computer you own, connected to the apps you choose</li>
+            <li>Locked down: it asks before anything risky, and only you can message it</li>
+            <li>A plain-English list of what stays on your machine, and check-ups at day 30 and day 90</li>
+          </ul></div>
+        <div class="when"><b>Plan by day 7</b><span>Running on your machine by day 14, once it's in hand</span></div>
+      </div>
+      <div class="price">
+        <div><span class="from">from</span><span class="num" data-num="vip"></span><span class="per">one person, four weeks</span></div>
+        <div><h3>The VIP Month</h3>
+          <ul>
+            <li>All three of the above, for as many goals as we can fit in four weeks</li>
+            <li>A working call with me every week</li>
+            <li>Same-day replies on messages, Monday to Friday</li>
+            <li>Everything written up, so you can carry on without me</li>
+          </ul></div>
+        <div class="when"><b>First answer by day 7</b><span>Pay half to start, half at week 2</span></div>
+      </div>
+    </div>
+    <div class="bonus">
+      <h3>Included with every option</h3>
+      <ul>
+        <li><b>30 days of follow-up</b><span>Message me questions as you use it. A tune-up call on day 30.</span></li>
+        <li><b>The playbook</b><span>Written steps for everything we set up, so you can change it without me.</span></li>
+        <li><b>The keep-out list</b><span>A one-page list of what you should never paste into AI, made for your work.</span></li>
+      </ul>
+    </div>
+    <div class="extras">
+      <div class="price">
+        <div><span class="from">add</span><span class="num" data-num="extra"></span><span class="per">per extra person</span></div>
+        <div><h3>Bring your people</h3><p class="lede" style="font-size:16px">Do it with your co-founder, partner or a small team. Up to 4 people in the same sessions, each with their own setup.</p></div>
+      </div>
+      <div class="price">
+        <div><span class="from">from</span><span class="num" data-num="oncall"></span><span class="per">a month, after your first project</span></div>
+        <div><h3>On call</h3><p class="lede" style="font-size:16px">I keep your setup working as the tools change, add one new helper a month, and answer before you buy anything new.</p></div>
+      </div>
+    </div>
+    <p class="capacity">I take a small number of clients each month, so each one gets my full attention.</p>
+  </div>
+</section>
+
+<!-- PROMISES -->
+<section class="band" id="promises">
+  <div class="wrap">
+    <span class="tag">My promise</span>
+    <h2 style="margin-top:18px">Working in a week, or your money back.</h2>
+    <div class="promises two">
+      <article><h3>Working by the date in your proposal</h3><p>For most goals that's 7 days. If what we agreed isn't working by then, you get your money back.</p></article>
+      <article><h3>30 days of follow-up, included</h3><p>Ask questions as you use it, and we meet again on day 30. If something we set up stops working in that time, I fix it free.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- BUILT -->
+<section id="built">
+  <div class="wrap">
+    <span class="tag">Proof, not promises</span>
+    <h2 style="margin-top:18px">Things I've built with AI.</h2>
+    <p class="lede" style="margin-top:22px">I've spent the last two years building with AI, full time, on my own. Some of it is live. Some of it failed. The failures are the part you're paying to skip.</p>
+    <div class="built">
+
+      <article class="tool">
+        <div class="duo">
+          <figure class="shot"><div class="bar"><i></i><i></i><i></i><span>beautyprofile.co</span></div>
+            <video src="assets/beautyprofile-demo.mp4" poster="assets/beautyprofile-poster.jpg" autoplay muted loop playsinline aria-label="Screen recording of the BeautyProfile home page"></video></figure>
+          <figure class="shot over"><img src="assets/beautyprofile-studio.jpg" alt="BeautyProfile draping studio: a champagne gold drape on a sample photo, with the AI's comment, drape 2 of 44"></figure>
+        </div>
+        <div class="meta">
+          <span class="tag">Live at beautyprofile.co</span>
+          <h3>BeautyProfile</h3>
+          <p>You upload a selfie. AI tries 44 colour drapes on your face, tells you which colours suit you and why, and hands you a take-home report. I built it on my own: the photo handling, the AI that judges each drape, sign-in, payments and the report.</p>
+          <div class="status"><span><b>Live</b></span><span>585 updates since July 2025</span><span>Runs on Google Gemini</span></div>
+        </div>
+      </article>
+
+      <article class="tool">
+        <figure class="shot"><div class="bar"><i></i><i></i><i></i><span>Shiftcut, running on my Mac</span></div>
+          <video src="assets/shiftcut-demo.mp4" poster="assets/shiftcut-poster.jpg" autoplay muted loop playsinline aria-label="Screen recording of the Shiftcut home page"></video></figure>
+        <div class="meta">
+          <span class="tag">Being built now</span>
+          <h3>Shiftcut</h3>
+          <p>Give it one long video of your work and it hands back short clips you can post, with your own words as the captions. Haven't filmed anything yet? It suggests what to film, starting from the questions your clients already ask.</p>
+          <div class="status"><span><b>Working prototype</b></span><span>197 updates in the last 10 days</span><span>Not public yet</span></div>
+        </div>
+      </article>
+
+      <article class="tool">
+        <figure class="shot log" aria-label="Animated example of the morning check of my AI assistant's work">
+          <div class="bar"><i></i><i></i><i></i><span>Morning check, 8:30am</span></div>
+          <ol id="log"></ol>
+        </figure>
+        <div class="meta">
+          <span class="tag">In daily use since September 2026</span>
+          <h3>My AI assistant team</h3>
+          <p>One AI assistant does my research and outreach. Every morning a second AI checks each job against the brief I wrote, opens at least five of its sources, and writes me a verdict in plain English. I read the verdicts and decide what happens next.</p>
+          <p>It's the same kind of setup I can build around your week.</p>
+          <div class="status"><span><b>19 jobs so far</b></span><span>Every one checked before I act on it</span></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="tried">
+      <h3>Plus the ones that didn't make it</h3>
+      <p class="lede">Each one taught me something about what AI can and can't do yet. That's a big part of what you're paying for.</p>
+      <ul>
+        <li><span class="yr">2025</span><b>An AI that phones sales leads</b><p>I built it to call through an Android phone. Speech AI wasn't quick enough yet for a live sales call, so I stopped.</p></li>
+        <li><span class="yr">2025</span><b>A sales-call coach</b><p>Upload a call, get feedback. I built the sign-in, upload and dashboard, then never launched it.</p></li>
+        <li><span class="yr">2025</span><b>A lead tracker inside Google Sheets</b><p>Scores leads and flags the overdue ones, built for a property sales team.</p></li>
+        <li><span class="yr">2025</span><b>An article writer in my own voice</b><p>Set up to write like my old newsletter. It wrote one article before I moved on.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER -->
+<section id="career" style="padding-top:0">
+  <div class="wrap">
+    <hr class="rule" style="margin-bottom:clamp(72px,10vw,132px)">
+    <span class="tag">Before AI</span>
+    <h2 style="margin-top:18px">Engineer first. Then the chairman's office.</h2>
+    <ol class="career">
+      <li><span class="yr">2014 to 2018</span><b>UCLA</b><p>Chemical engineering, cum laude, on a national scholarship.</p></li>
+      <li><span class="yr">2019 to 2021</span><b>ExxonMobil</b><p>Heat exchanger engineer, then process engineer. Promoted twice in my first review cycle. Nothing gets trusted there until it's been tested.</p></li>
+      <li><span class="yr">2022</span><b>INSEAD MBA</b><p>On scholarship. Then an internship at Abbott that found $300k in savings.</p></li>
+      <li><span class="yr">2023 to 2024</span><b>The chairman's office</b><p>Special projects for an Executive Chairman: the models and research behind big decisions, written for someone with no time to waste.</p></li>
+      <li><span class="yr">2024 to now</span><b>Building with AI</b><p>Full time, on my own products. Live apps, agents, assistants, and a lot of tests that didn't make the cut.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background:var(--paper-2)">
+  <div class="wrap about">
+    <div class="portrait"><img src="assets/ryan.jpg" alt="Ryan Koh"></div>
+    <div class="copy">
+      <span class="tag">Who you'd be working with</span>
+      <p>I'm Ryan. I trained as a chemical engineer, and my first job was at ExxonMobil, where you test everything before anyone trusts it. After an MBA at INSEAD I worked for a company chairman, turning messy questions into clear answers he could act on.</p>
+      <p>For the last two years I've built with AI full time. I've paid for the subscriptions, followed the setup guides, broken things and fixed them. A lot of what's online about AI tools is written by people selling them. I'd rather tell you what actually worked, on a task like yours.</p>
+      <p>I work with a few people at a time, one on one, so I can do the testing properly. If you're curious, short on time, and happy to try new things, we'll get on well.</p>
+      <p class="sign">Ryan Koh, Kuala Lumpur (GMT+8). Calls on Zoom or Google Meet, wherever you are.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FIT -->
+<section id="fit">
+  <div class="wrap">
+    <span class="tag">Is this for you?</span>
+    <h2 style="margin-top:18px">Made for curious people with more money than time.</h2>
+    <div class="fit">
+      <div class="yes"><h3>A good fit</h3><ul>
+        <li>Founders, freelancers and professionals who'd rather pay than spend months testing</li>
+        <li>People who like trying new things, but can't spare the evenings</li>
+        <li>Anyone who wants AI on private files without sending them to someone else's server</li>
+        <li>Small groups of 2 to 4 who want to set it up together</li>
+      </ul></div>
+      <div class="no"><h3>Not a fit</h3><ul>
+        <li>Companies looking for staff training or levy-claimable workshops</li>
+        <li>Anyone who wants a course to watch on their own</li>
+        <li>"Get rich with AI" plans</li>
+        <li>People who want a tool picked for them but won't use it</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <hr class="rule" style="margin-bottom:clamp(72px,10vw,132px)">
+    <span class="tag">Questions</span>
+    <h2 style="margin-top:18px">Good questions to ask first.</h2>
+    <div class="faq">
+      <details><summary>Is the first call really free?</summary><div class="a"><p>Yes. It's 30 minutes on your goal, and you get a written proposal afterwards. There's nothing to pay unless you say yes to it.</p></div></details>
+      <details><summary>Do I need to be technical?</summary><div class="a"><p>No. If you can use email and join a video call, you can do this. I do the technical parts and write everything down in plain English.</p></div></details>
+      <details><summary>Which AI tools will you recommend?</summary><div class="a"><p>Whatever fits your goal. That might be ChatGPT, Claude, Gemini, a smaller tool, or something that runs on your own computer. I test them on your actual task before I recommend anything.</p></div></details>
+      <details><summary>What does "private AI on your own computer" mean?</summary><div class="a"><p>An AI assistant that runs on a machine you own, instead of only inside someone else's app. I set it up with Hermes Agent, which is free and open source. You choose which AI model it uses, including models that run entirely on your own computer, so your files can stay with you.</p><p>It doesn't send usage data anywhere, and your chats and its memory are stored on your own machine. A model that runs fully offline needs a fairly strong computer, so I check yours before you buy anything. The install itself is the easy part. What you're paying for is a setup that's locked down properly and doing real jobs for you.</p></div></details>
+      <details><summary>What do I pay on top of your fee?</summary><div class="a"><p>Only the AI tools you decide to keep, paid directly to the company that makes them, in your name. The main AI plans cost about US$20 a month. For a private AI, you may also want a computer to run it on, and I'll tell you before you buy anything.</p></div></details>
+      <details><summary>What if my goal is too big for one week?</summary><div class="a"><p>Then your proposal will say so, with a realistic date. Usually we pick the part that gives you the most time back and get that working first.</p></div></details>
+      <details><summary>Which time zones do you work with?</summary><div class="a"><p>I'm in Kuala Lumpur (GMT+8). Daytime calls suit Asia and Australia, late afternoons suit Europe and the Middle East, and early mornings or late evenings suit the Americas.</p></div></details>
+      <details><summary>Can I get a refund?</summary><div class="a"><p>Yes. If what we agreed in your proposal isn't working by the date in it, you get your money back.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section class="band" id="apply">
+  <div class="wrap apply">
+    <div class="band-copy">
+      <span class="tag">Book your free call</span>
+      <h2>Tell me the goal. I'll tell you if I can help.</h2>
+      <p class="lede">Answer five quick questions. I read every one myself and reply to set up your free 30-minute call. Afterwards you get a written proposal with the exact price. If I'm not the right person, I'll say so and point you somewhere better.</p>
+    </div>
+    <form id="form" novalidate>
+      <div class="row">
+        <label for="f-name">Your name<input id="f-name" name="name" autocomplete="name" required></label>
+        <label for="f-email">Your email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+      </div>
+      <label for="f-goal">What do you want AI to do for you? <small>One or two sentences is plenty.</small>
+        <textarea id="f-goal" name="goal" required></textarea></label>
+      <label for="f-tried">What have you tried so far? <small>Tools, courses, or nothing yet.</small>
+        <textarea id="f-tried" name="tried" style="min-height:72px"></textarea></label>
+      <div class="row">
+        <label for="f-offer">Which option interests you?
+          <select id="f-offer" name="offer">
+            <option>Not sure yet</option>
+            <option>The 7-Day AI Answer</option>
+            <option>Built Around Your Week</option>
+            <option>Your Own Private AI</option>
+            <option>The VIP Month</option>
+            <option>A small group (2 to 4 people)</option>
+          </select></label>
+        <label for="f-where">Where are you based? <small>For call times.</small><input id="f-where" name="where" placeholder="City or time zone"></label>
+      </div>
+      <label class="check" for="f-private"><input type="checkbox" id="f-private" name="private"> I work with private or confidential files</label>
+      <button class="btn" type="submit" style="justify-self:start">Send and book my call</button>
+      <p id="f-err" class="tag" style="color:var(--ink-2)" hidden>Please add your name, email and goal.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<div class="ghost-word" aria-hidden="true">One week</div>
+<footer>
+  <div class="wrap">
+    <span>Ryan Koh · One-on-one AI help · Kuala Lumpur, working worldwide</span>
+    <span>© 2026</span>
+  </div>
+</footer>
+
+<script>
+/* Ryan fills these in. Prices are starting prices in US dollars. */
+const CONFIG = {
+  email: "kianjer.koh@gmail.com",
+  prices: { answer: 1200, setup: 2500, private: 3000, vip: 7500, extra: 400, oncall: 500 }
+};
+
+const fmt = n => "US$" + Math.round(n).toLocaleString("en-US");
+const $ = s => document.querySelector(s);
+
+/* prices */
+document.querySelectorAll("[data-num]").forEach(el => {
+  const v = CONFIG.prices[el.dataset.num];
+  el.innerHTML = v ? `<sup>US$</sup>${v.toLocaleString("en-US")}` : "<sup>US$</sup>TBC";
+});
+document.querySelectorAll("[data-price]").forEach(el => {
+  const v = CONFIG.prices[el.dataset.price];
+  el.textContent = v ? fmt(v) : "TBC";
+});
+
+/* live sheet demo */
+const GOALS = [
+  { lines: [
+      ["Day 1", "Goal: a weekly newsletter drafted in half the time, still in your voice."],
+      ["Day 2-4", "Test 3 AI writing setups on your last 5 issues. Keep the one that sounds like you."],
+      ["Day 5", "Set it up together: your style guide, your outline, your sources."],
+      ["Day 7", "Playbook: draft, check, publish. Plus the 4 things to never let it write."]],
+    ans: "One subscription, set up right", cost: "Running cost: one AI plan, about US$20 a month." },
+  { lines: [
+      ["Day 1", "Goal: every client call turns into notes, next steps and a draft follow-up."],
+      ["Day 2-4", "Test note-takers on 3 recorded calls. Check what each gets wrong."],
+      ["Day 5", "Set up the note-taker and a follow-up helper that writes in your tone."],
+      ["Day 7", "Playbook: record, review, send. Your follow-ups go out the same day."]],
+    ans: "Two helpers around your calls", cost: "Running cost: your AI plan plus a note-taker, often a free tier." },
+  { lines: [
+      ["Day 1", "Goal: a clear read on one market, with sources, before you put money in."],
+      ["Day 2-4", "Build a research helper that searches, cites every claim and flags weak sources."],
+      ["Day 5", "Run it with you on your real question. Check its sources together."],
+      ["Day 7", "Playbook: how to re-run it on the next deal in an afternoon."]],
+    ans: "A research helper you can re-run", cost: "Running cost: one AI plan with research mode." },
+  { lines: [
+      ["Day 1", "Goal: AI that reads your client files without uploading them to an AI company."],
+      ["Day 2-4", "Test private setups on your machine. Measure speed and quality on sample files."],
+      ["Day 5", "Plan the setup: which computer, which model, what it can and can't touch."],
+      ["Day 7", "Plan in hand. Installed and running on your own machine by day 14."]],
+    ans: "Your own private AI", cost: "Running cost: your own computer, plus the model you choose." }
+];
+let timer = [];
+function showGoal(i) {
+  timer.forEach(clearTimeout); timer = [];
+  document.querySelectorAll(".goal").forEach(b => b.setAttribute("aria-pressed", b.dataset.goal == i));
+  const g = GOALS[i], ol = $("#lines"), reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  ol.innerHTML = "";
+  $("#stamp").style.visibility = "hidden";
+  $("#ans").textContent = g.ans; $("#cost").textContent = g.cost;
+  g.lines.forEach(([d, t], k) => timer.push(setTimeout(() => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="d">${d}</span><span class="t">${t}</span>`;
+    ol.appendChild(li);
+  }, reduce ? 0 : k * 380)));
+  timer.push(setTimeout(() => { const s = $("#stamp"); s.style.visibility = "visible"; s.style.animation = "none"; s.offsetWidth; s.style.animation = ""; }, reduce ? 0 : g.lines.length * 380 + 120));
+}
+document.querySelectorAll(".goal").forEach(b => b.addEventListener("click", () => showGoal(+b.dataset.goal)));
+showGoal(0);
+
+
+/* morning-check log demo (real job names and verdicts from my assistant's outbox) */
+const JOBS = [
+  ["28 Sep", "Beauty expo exhibitor list", "Go"],
+  ["28 Sep", "Kiosk rental prices", "Pass"],
+  ["28 Sep", "Event venue calendars", "Fix 2 rows", "fix"],
+  ["1 Oct", "Video tool benchmarks", "Good"],
+  ["3 Oct", "10 creator messages", "Pass"],
+  ["4 Oct", "9 creator messages", "Pass"]
+];
+(function runLog() {
+  const ol = $("#log"); if (!ol) return;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const row = ([d, t, v, c], wait) => `<span class="dt">${d}</span><span>${t}</span><span class="v ${wait ? "wait" : c || ""}">${wait ? "Checking" : v}</span>`;
+  const play = () => {
+    ol.innerHTML = "";
+    JOBS.forEach((j, k) => setTimeout(() => {
+      const li = document.createElement("li"); li.innerHTML = row(j, true); ol.appendChild(li);
+      setTimeout(() => li.innerHTML = row(j, false), 900);
+    }, k * 1100));
+    setTimeout(play, JOBS.length * 1100 + 4000);
+  };
+  if (reduce) { ol.innerHTML = JOBS.map(j => `<li>${row(j, false)}</li>`).join(""); return; }
+  ol.innerHTML = JOBS.map(j => `<li>${row(j, false)}</li>`).join("");
+  setTimeout(play, 2500);
+})();
+
+/* cost calculator */
+function calc() {
+  const h = +$("#c-hours").value, r = +$("#c-rate").value, m = +$("#c-months").value;
+  $("#o-hours").textContent = h; $("#o-rate").textContent = r; $("#o-months").textContent = m;
+  const total = h * r * m * 4.33;
+  $("#c-total").textContent = fmt(total);
+  const p = CONFIG.prices.answer;
+  $("#c-vs").textContent = p
+    ? `of your time, gone before anything works. The 7-Day AI Answer starts at ${fmt(p)}. You set the numbers above.`
+    : "of your time, gone before anything works. You set the numbers above.";
+}
+["#c-hours", "#c-rate", "#c-months"].forEach(s => $(s).addEventListener("input", calc));
+calc();
+
+/* application form: builds an email with the answers */
+$("#form").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target, v = n => f.elements[n].value.trim();
+  if (!v("name") || !v("email") || !v("goal")) { $("#f-err").hidden = false; return; }
+  const body = `Name: ${v("name")}\nEmail: ${v("email")}\nBased in: ${v("where") || "-"}\nInterested in: ${v("offer")}\nPrivate files: ${f.elements.private.checked ? "yes" : "no"}\n\nWhat I want AI to do:\n${v("goal")}\n\nWhat I've tried:\n${v("tried") || "-"}`;
+  const to = CONFIG.email;
+  const mail = `mailto:${to}?subject=${encodeURIComponent("Application: " + v("name"))}&body=${encodeURIComponent(body)}`;
+  f.innerHTML = `<div class="done">
+    <h3>Nearly done</h3>
+    <p>Your answers are ready. Send them to the address below and I'll reply to set up your call.</p>
+    <p class="email">${to || "Email address coming soon"}</p>
+    <pre id="app-text"></pre>
+    <div class="btns">${to ? `<a class="btn" href="${mail}">Open in my email app</a>` : ""}<button type="button" class="btn ghost" id="copy">Copy my answers</button></div>
+  </div>`;
+  $("#app-text").textContent = body;
+  $("#copy").addEventListener("click", ev => {
+    navigator.clipboard.writeText(body).then(() => ev.target.textContent = "Copied", () => {
+      const r = document.createRange(); r.selectNodeContents($("#app-text"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); ev.target.textContent = "Selected, press copy";
+    });
+  });
+});
+</script>
+</body></html>
